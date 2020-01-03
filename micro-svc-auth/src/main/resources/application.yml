@@ -1,0 +1,47 @@
+server:
+  port: 7003
+  tomcat: 
+    basedir: /tmp/
+
+spring:
+  application:
+    name: micro-svc-auth
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  servlet: 
+    multipart: 
+      enabled: true
+      max-file-size: 50MB
+      max-request-size: 100MB
+  main: 
+    allow-bean-definition-overriding: true
+      
+## 环境配置文件 dev test prod
+  profiles:
+    active: dev
+
+## Mybatis config
+mybatis:
+  mapperLocations: classpath:mapper/**/*.xml
+  configLocation: classpath:mybatis.xml
+
+## pagehelper
+pagehelper: 
+  helperDialect: postgresql
+  reasonable: true
+  supportMethodsArguments: true
+  params: countSql
+  count: countSql
+  returnPageInfo: check
+
+## 记录日志
+logging: 
+  config: classpath:logback-spring.xml
+## Start logging
+  level: 
+    root: INFO
+    
+test: 
+  pass-without-res: true # 当资源未配置时，权限检验是否放行
+

@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.auth.mapper.ComResourcesMapper">
+    
+    <resultMap id="BaseResultMap" type="com.test.auth.entity.ComResourcesEntity">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="module" jdbcType="VARCHAR" property="module" />
+        <result column="class_name" jdbcType="VARCHAR" property="className" />
+        <result column="simple_name" jdbcType="VARCHAR" property="simpleName" />
+        <result column="method_name" jdbcType="VARCHAR" property="methodName" />
+        <result column="permissions" jdbcType="VARCHAR" property="permissions" />
+        <result column="request_type" jdbcType="VARCHAR" property="requestType" />
+        <result column="request_url" jdbcType="VARCHAR" property="requestUrl" />
+        <result column="api_desc" jdbcType="VARCHAR" property="apiDesc" />
+        <result column="api_remark" jdbcType="VARCHAR" property="apiRemark" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="edit_time" jdbcType="TIMESTAMP" property="editTime" />
+        <result column="del_flag" jdbcType="SMALLINT" property="delFlag" />
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, module, class_name, simple_name, method_name, permissions, request_type, request_url, 
+        api_desc, api_remark, create_time, edit_time, del_flag
+    </sql>
+    
+    <sql id="Base_Where_Clause">
+        <where>
+            <if test="module != null">
+                 and module = #{module,jdbcType=VARCHAR}
+            </if>
+            <if test="className != null">
+                 and class_name = #{className,jdbcType=VARCHAR}
+            </if>
+            <if test="simpleName != null">
+                 and simple_name = #{simpleName,jdbcType=VARCHAR}
+            </if>
+            <if test="methodName != null">
+                 and method_name = #{methodName,jdbcType=VARCHAR}
+            </if>
+            <if test="permissions != null">
+                 and permissions = #{permissions,jdbcType=VARCHAR}
+            </if>
+            <if test="requestType != null">
+                 and request_type = #{requestType,jdbcType=VARCHAR}
+            </if>
+            <if test="requestUrl != null">
+                 and request_url = #{requestUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="apiDesc != null">
+                 and api_desc = #{apiDesc,jdbcType=VARCHAR}
+            </if>
+            <if test="apiRemark != null">
+                 and api_remark = #{apiRemark,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                 and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="editTime != null">
+                 and edit_time = #{editTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="delFlag != null">
+                 and del_flag = #{delFlag,jdbcType=SMALLINT}
+            </if>
+        </where>
+    </sql>
+    
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from  t_com_resources 
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    
+    <select id="selectByCondition" resultMap="BaseResultMap">
+        select id, module, class_name, simple_name, method_name, permissions, request_type, request_url, 
+        api_desc, api_remark, create_time, edit_time, del_flag
+        from  t_com_resources 
+        <include refid="Base_Where_Clause" />
+        order by module, id 
+    </select>
+    
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.test.auth.entity.ComResourcesEntity" useGeneratedKeys="true">
+        insert into  t_com_resources  (module, class_name, simple_name, method_name, 
+            permissions, request_type, request_url, 
+            api_desc, api_remark, create_time, 
+            edit_time, del_flag)
+        values (#{module, jdbcType=VARCHAR}, #{className,jdbcType=VARCHAR}, #{simpleName,jdbcType=VARCHAR}, #{methodName,jdbcType=VARCHAR}, 
+            #{permissions,jdbcType=VARCHAR}, #{requestType,jdbcType=VARCHAR}, #{requestUrl,jdbcType=VARCHAR}, 
+            #{apiDesc,jdbcType=VARCHAR}, #{apiRemark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+            #{editTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=SMALLINT})
+    </insert>
+    
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.test.auth.entity.ComResourcesEntity" useGeneratedKeys="true">
+        insert into  t_com_resources 
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="module != null">
+                module,
+            </if>
+            <if test="className != null">
+                class_name,
+            </if>
+            <if test="simpleName != null">
+                simple_name,
+            </if>
+            <if test="methodName != null">
+                method_name,
+            </if>
+            <if test="permissions != null">
+                permissions,
+            </if>
+            <if test="requestType != null">
+                request_type,
+            </if>
+            <if test="requestUrl != null">
+                request_url,
+            </if>
+            <if test="apiDesc != null">
+                api_desc,
+            </if>
+            <if test="apiRemark != null">
+                api_remark,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="editTime != null">
+                edit_time,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="module != null">
+                #{module,jdbcType=VARCHAR},
+            </if>
+            <if test="className != null">
+                #{className,jdbcType=VARCHAR},
+            </if>
+            <if test="simpleName != null">
+                #{simpleName,jdbcType=VARCHAR},
+            </if>
+            <if test="methodName != null">
+                #{methodName,jdbcType=VARCHAR},
+            </if>
+            <if test="permissions != null">
+                #{permissions,jdbcType=VARCHAR},
+            </if>
+            <if test="requestType != null">
+                #{requestType,jdbcType=VARCHAR},
+            </if>
+            <if test="requestUrl != null">
+                #{requestUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="apiDesc != null">
+                #{apiDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="apiRemark != null">
+                #{apiRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="editTime != null">
+                #{editTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=SMALLINT},
+            </if>
+        </trim>
+    </insert>
+    
+    <update id="updateByPrimaryKeySelective" parameterType="com.test.auth.entity.ComResourcesEntity">
+        update  t_com_resources 
+        <set>
+            <if test="module != null">
+                module = #{module,jdbcType=VARCHAR},
+            </if>
+            <if test="className != null">
+                class_name = #{className,jdbcType=VARCHAR},
+            </if>
+            <if test="simpleName != null">
+                simple_name = #{simpleName,jdbcType=VARCHAR},
+            </if>
+            <if test="methodName != null">
+                method_name = #{methodName,jdbcType=VARCHAR},
+            </if>
+            <if test="permissions != null">
+                permissions = #{permissions,jdbcType=VARCHAR},
+            </if>
+            <if test="requestType != null">
+                request_type = #{requestType,jdbcType=VARCHAR},
+            </if>
+            <if test="requestUrl != null">
+                request_url = #{requestUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="apiDesc != null">
+                api_desc = #{apiDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="apiRemark != null">
+                api_remark = #{apiRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="editTime != null">
+                edit_time = #{editTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag,jdbcType=SMALLINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    
+    <update id="updateByPrimaryKey" parameterType="com.test.auth.entity.ComResourcesEntity">
+        update  t_com_resources 
+        set module = #{module,jdbcType=VARCHAR},
+            class_name = #{className,jdbcType=VARCHAR},
+            simple_name = #{simpleName,jdbcType=VARCHAR},
+            method_name = #{methodName,jdbcType=VARCHAR},
+            permissions = #{permissions,jdbcType=VARCHAR},
+            request_type = #{requestType,jdbcType=VARCHAR},
+            request_url = #{requestUrl,jdbcType=VARCHAR},
+            api_desc = #{apiDesc,jdbcType=VARCHAR},
+            api_remark = #{apiRemark,jdbcType=VARCHAR},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            edit_time = #{editTime,jdbcType=TIMESTAMP},
+            del_flag = #{delFlag,jdbcType=SMALLINT}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from  t_com_resources 
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    
+</mapper>

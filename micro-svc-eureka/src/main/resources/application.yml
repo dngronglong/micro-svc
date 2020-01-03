@@ -1,0 +1,32 @@
+server:
+  port: 7001
+
+spring:
+  application:
+    name: micro-svc-eureka
+  main:
+    allow-bean-definition-overriding: true
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    #hostname: eureka.test.com #eureka服务端的实例名称
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+
+  server:
+    enable-self-preservation: false ## 中小规模下，自我保护模式坑比好处多，所以关闭它
+    #renewal-threshold-update-interval-ms: 120000  ## 心跳阈值计算周期，如果开启自我保护模式，可以改一下这个配置
+    eviction-interval-timer-in-ms: 5000 ## 主动失效检测间隔,配置成5秒
+    use-read-only-response-cache: false ## 禁用readOnlyCacheMap
+
+  client:
+    register-with-eureka: false     #false表示不向注册中心注册自己。
+    fetch-registry: false     #false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
+    service-url:
+      defaultZone: http://${spring.cloud.client.ip-address}:${server.port}/eureka/
+
+info:
+  app.name: micro-svc-eureka
+  company.name: test.com
+  build.artifactId: "@project.artifactId@"
+  build.version: "@project.version@"

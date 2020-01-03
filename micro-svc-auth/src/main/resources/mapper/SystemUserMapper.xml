@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.auth.mapper.SystemUserMapper">
+	
+	<resultMap id="userEntity" type="com.test.shiro.entity.UserEntity">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="login_name" jdbcType="VARCHAR" property="loginName" />
+		<result column="login_passwd" jdbcType="VARCHAR" property="loginPasswd" />
+		<result column="user_name" jdbcType="VARCHAR" property="userName" />
+		<result column="salt" jdbcType="VARCHAR" property="salt" />
+		<result column="user_status" jdbcType="SMALLINT" property="userStatus" />
+		<result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
+		<result column="user_type" jdbcType="SMALLINT" property="userType" />
+		<result column="version" jdbcType="SMALLINT" property="version" />
+		<result column="fail_count" jdbcType="SMALLINT" property="failCount" />
+		<result column="owner_id" jdbcType="INTEGER" property="ownerId" />
+		<result column="stations_id" jdbcType="INTEGER" property="stationsId" />
+		<result column="bind_account" jdbcType="VARCHAR" property="bindAccount" />
+	</resultMap>
+	
+	
+	<sql id="Base_Column_List">
+		id, login_name, login_passwd, user_name, salt, user_status, user_phone, create_time, update_time,remark, user_type, version, fail_count,owner_id,stations_id,bind_account
+	</sql>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_system_user where id = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	<select id="queryUserByUserId" resultMap="userEntity">
+		select <include refid="Base_Column_List" /> from t_system_user where id = #{userId, jdbcType=INTEGER}
+	</select>
+	
+	
+	<select id="queryUserByLoginName" resultMap="userEntity">
+		select <include refid="Base_Column_List" /> from t_system_user where login_name = #{loginName, jdbcType=VARCHAR}
+	</select>
+	
+	
+	<insert id="insert" parameterType="com.test.shiro.entity.UserEntity">
+		<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+			SELECT currval('t_system_user_id_seq')
+		</selectKey>
+		insert into t_system_user (
+			login_name, login_passwd, user_name, salt, 
+			user_status, user_phone
+		)
+		values (
+			#{loginName,jdbcType=VARCHAR}, #{loginPasswd,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR},
+			#{userStatus,jdbcType=SMALLINT}, #{userPhone,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.test.shiro.entity.UserEntity">
+		<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT currval('t_system_user_id_seq')
+		</selectKey>
+		insert into t_system_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="loginName != null">
+				login_name,
+			</if>
+			<if test="loginPasswd != null">
+				login_passwd,
+			</if>
+			<if test="userName != null">
+				user_name,
+			</if>
+			<if test="salt != null">
+				salt,
+			</if>
+			<if test="userStatus != null">
+				user_status,
+			</if>
+			<if test="userPhone != null">
+				user_phone,
+			</if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="userType">
+            	user_type,
+            </if>
+            <if test="ownerId != null">
+            	owner_id,
+            </if>  
+            <if test="stationsId != null">
+            	stations_id,
+            </if>
+			<if test="bindAccount != null">
+				bind_account,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="loginName != null">
+				#{loginName,jdbcType=VARCHAR},
+			</if>
+			<if test="loginPasswd != null">
+				#{loginPasswd,jdbcType=VARCHAR},
+			</if>
+			<if test="userName != null">
+				#{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="salt != null">
+				#{salt,jdbcType=VARCHAR},
+			</if>
+			<if test="userStatus != null">
+				#{userStatus,jdbcType=SMALLINT},
+			</if>
+			<if test="userPhone != null">
+				#{userPhone,jdbcType=VARCHAR},
+			</if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+				#{userType,jdbcType=SMALLINT},
+			</if>
+			<if test="ownerId != null">
+				#{ownerId,jdbcType=INTEGER},
+			</if>
+			<if test="stationsId != null">
+            	#{stationsId,jdbcType=INTEGER},
+            </if>
+			<if test="bindAccount != null">
+				#{bindAccount,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.test.shiro.entity.UserEntity">
+		update t_system_user
+		<set>
+			<if test="loginName != null">
+				login_name = #{loginName,jdbcType=VARCHAR},
+			</if>
+			<if test="loginPasswd != null">
+				login_passwd = #{loginPasswd,jdbcType=VARCHAR},
+			</if>
+			<if test="userName != null">
+				user_name = #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="salt != null">
+				salt = #{salt,jdbcType=VARCHAR},
+			</if>
+			<if test="userStatus != null">
+				user_status = #{userStatus,jdbcType=SMALLINT},
+			</if>
+			<if test="userPhone != null">
+				user_phone = #{userPhone,jdbcType=VARCHAR},
+			</if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="failCount != null">
+                fail_count = #{failCount,jdbcType=VARCHAR},
+            </if>
+            <if test="failCount != null and failCount == 0 ">
+                login_time = now(),
+            </if>
+            <if test="ownerId != null">
+                owner_id = #{ownerId},
+            </if>
+            <if test="stationsId != null">
+            	stations_id = #{stationsId,jdbcType=INTEGER},
+            </if>
+			<if test="bindAccount != null">
+				bind_account = #{bindAccount,jdbcType=VARCHAR},
+			</if>
+			update_time = now()
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	
+	<update id="updateByPrimaryKey" parameterType="com.test.shiro.entity.UserEntity">
+		update t_system_user
+		set 
+			login_name = #{loginName,jdbcType=VARCHAR},
+			login_passwd = #{loginPasswd,jdbcType=VARCHAR},
+			user_name = #{userName,jdbcType=VARCHAR},
+			salt = #{salt,jdbcType=VARCHAR},
+			user_status = #{userStatus,jdbcType=SMALLINT},
+			user_phone = #{userPhone,jdbcType=VARCHAR},
+			update_time =now()
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	
+	
+	<select id="findByCondition" resultMap="userEntity" parameterType="com.test.shiro.entity.UserEntity">
+		select <include refid="Base_Column_List" /> from t_system_user
+			where user_status != 0
+			<if test="loginName != null">
+				and login_name = #{loginName}
+			</if>
+			<if test="userPhone != null">
+				and user_phone = #{userPhone}
+			</if>
+			<if test="id != null">
+				and id = #{id}
+			</if>
+            <if test="loginPasswd !=null">
+                and login_passwd = #{loginPasswd,jdbcType=VARCHAR}
+            </if>
+			<if test="bindAccount !=null">
+				and login_name = #{bindAccount,jdbcType=VARCHAR}
+			</if>
+	</select>
+	
+	<!-- 修改指定用户密码 -->
+	<update id="updatePasswdForReset" parameterType="com.test.shiro.entity.UserEntity">
+		update t_system_user
+		<set>
+			<if test="salt != null and salt !=''">
+				salt = #{salt,jdbcType=VARCHAR},
+			</if>
+			<if test="loginPasswd != null and loginPasswd !=''">
+				login_passwd = #{loginPasswd,jdbcType=VARCHAR}
+			</if>
+		</set>
+		 where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="queryByCondition" resultType="java.util.Map" parameterType="com.test.shiro.entity.UserEntity">
+        select t1.id as id,
+        t1.login_name as "loginName",
+        t1.user_name as "userName",
+        t1.user_phone as "userPhone",
+        array_to_string(array_agg(distinct(t4.role_name)), ',') as "roleName",
+        t6.nick_name || (
+		CASE
+		WHEN t5.foreign_user_id IS NOT NULL THEN
+			'[已绑定]'
+		END
+		) AS "nickName",
+        t1.create_time as "createTime",
+        t1.update_time as "updateTime",
+        t1.user_status as "userStatus",
+        t1.remark as "remark",
+        t1.login_time as "loginTime",
+        t1.stations_id as "stationsId",
+		t1.bind_account as "bindAccount"
+        from t_system_user t1 left join  t_system_org_user t2 on t1.id = t2.user_id
+	        left join t_system_role_user t3 on t1.id = t3.user_id
+	        left join t_system_role t4 on t4.id = t3.role_id
+	        left join t_system_userbind t5 on t1.id = t5.user_id
+	        left join t_system_wechat_user t6 on t5.foreign_user_id = t6.open_id
+        where t1.owner_id = #{ownerId} and t1.user_type = 0
+        <if test="userStatus != null">
+             and t1.user_status = #{userStatus}
+        </if>
+        <if test="userStatus == null">
+             and t1.user_status >= 1
+        </if>
+        <if test="userName != null">
+            and  t1.user_name LIKE '%'||#{userName}||'%'
+        </if>
+        <if test="orgId > 0">
+        	and t2.org_id = #{orgId}
+        </if>
+        <if test="id > 0">
+        	and t1.id = #{id}
+        </if>
+        <if test="deptIds != null and deptIds.size()>0">
+        	and t2.org_id in
+        	<foreach collection="deptIds" item="deptId" open="(" close=")" separator=",">
+        		#{deptId}
+        	</foreach>
+        </if>
+        group by t1.id,t5.id,t6.id order by t1.id desc
+	</select>
+	
+	
+	<select id="queryByMap" resultType="java.util.Map" parameterType="java.util.Map">
+        select t1.id as id,
+        t1.login_name as "loginName",
+        t1.user_name as "userName",
+        t1.user_phone as "userPhone",
+        array_to_string(array_agg(distinct(t4.role_name)), ',') as "roleName",
+        t1.create_time as "createTime",
+        t1.update_time as "updateTime",
+        t1.user_status as "userStatus",
+        t1.remark as "remark",
+        t1.owner_id as "ownerId",
+        t1.login_time as "loginTime"
+        from t_system_user t1 left join  t_system_org_user t2 on t1.id = t2.user_id
+	        left join t_system_role_user t3 on t1.id = t3.user_id
+	        left join t_system_role t4 on t4.id = t3.role_id
+        where t1.user_type = 0
+        <if test="userStatus != null">
+             and t1.user_status = #{userStatus}
+        </if>
+        <if test="userStatus == null">
+             and t1.user_status >= 1
+        </if>
+        <if test="userName != null">
+            and  t1.user_name LIKE '%'||#{userName}||'%'
+        </if>
+        <if test="userType != null">
+            and  t1.user_type = #{userType}
+        </if>
+        <if test="orgId > 0">
+        	and t2.org_id = #{orgId}
+        </if>
+        <if test="ownerId != null">
+        	and t1.owner_id = #{ownerId} 
+        </if>
+        <if test="userId != null">
+        	and t1.id = #{userId} 
+        </if>
+        <if test="roleId != null">
+        	and t4.id = #{roleId} 
+        </if>
+        group by t1.id order by t1.id desc
+	</select>
+	
+	
+	<select id="getCount" resultType="java.lang.Integer" parameterType="com.test.shiro.entity.UserEntity">
+        select count(t1.id) from t_system_user t1 left join  t_system_org_user t2 on t1.id = t2.user_id
+        where t1.owner_id = #{ownerId}
+        <if test="userStatus != null">
+             and t1.user_status = #{userStatus}
+        </if>
+        <if test="userStatus == null">
+             and t1.user_status >= 1
+        </if>
+        <if test="userName != null">
+            and  t1.user_name LIKE '%'||#{userName}||'%'
+        </if>
+        <if test="orgId > 0">
+        	and t2.org_id = #{orgId}
+        </if>
+	</select>
+	
+    <select id="getUserOrgList" resultType="java.util.Map">
+    	select id as "id",org_id as "orgId",user_id as "userId",owner_id as "ownerId" from t_system_org_user where user_id = #{id}
+    </select>
+    
+    <select id="getActiviUser" resultType="java.util.Map">select t1.user_name as userName,t2.date,t2.count as value from t_system_user t1 left join (select to_char(create_time, 'yyyy-mm') as date,count(*),user_id as id from t_system_log group by to_char(create_time, 'yyyy-mm'),user_id order by date desc) t2 on t1.id = t2.id where t2.id !=0 and date = #{date} and owner_id = #{ownerId} order by value desc</select>
+    
+    <select id="getAppRate" resultType="java.util.Map">select t1.id,t1.system_name as systemName,t2.date,t2.count from t_system_app t1 left join (select to_char(create_time, 'yyyy-mm-dd') as date,count(*),system_id as id from t_system_log where owner_id = #{ownerId} group by to_char(create_time, 'yyyy-mm-dd'),system_id) t2 on t1.id = t2.id where t2.id !=0</select>
+
+	<select id="queryUserByOpenId" resultMap="userEntity">
+		select <include refid="Base_Column_List" /> from t_system_user where id in(select user_id from t_system_userbind where foreign_user_id = #{openId})
+	</select>
+	
+	<select id="queryBindByMap" resultType="java.util.Map" parameterType="java.util.Map">
+		select * from t_system_userbind where 1 = 1
+		<if test="openId != null">
+			and foreign_user_id = #{openId}
+		</if>
+		<if test="userId != null">
+			and user_id = #{userId}
+		</if>
+		<if test="systemId != null">
+			and system_id = #{systemId}
+		</if>
+		<if test="userType != null">
+			and user_type = #{userType}
+		</if>
+	</select>
+	
+	<select id="queryWechatUser" resultType="java.util.Map" parameterType="java.util.Map">
+		select t2.* from t_system_userbind t1 left join t_system_wechat_user t2 on t1.foreign_user_id = t2.open_id where 1 = 1
+		<if test="userId != null">
+			and t1.user_id = #{userId}
+		</if>
+	</select>
+	
+	<insert id="insertWechatUser" parameterType="java.util.Map">
+		insert into t_system_wechat_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="nickName != null">
+				nick_name,
+			</if>
+			<if test="openId != null">
+				open_id,
+			</if>
+			<if test="unionId != null">
+				union_id,
+			</if>
+			<if test="gender != null">
+				gender,
+			</if>
+			<if test="city != null">
+				city,
+			</if>
+			<if test="province != null">
+				province,
+			</if>
+			<if test="country != null">
+				country,
+			</if>
+			<if test="avatarUrl != null">
+				avatar_url,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="nickName != null">
+				#{nickName, jdbcType=VARCHAR},
+			</if>
+			<if test="openId != null">
+				#{openId, jdbcType=VARCHAR},
+			</if>
+			<if test="unionId != null">
+				#{unionId, jdbcType=VARCHAR},
+			</if>
+			<if test="gender != null">
+				#{gender, jdbcType=INTEGER},
+			</if>
+			<if test="city != null">
+				#{city, jdbcType=VARCHAR},
+			</if>
+			<if test="province != null">
+				#{province, jdbcType=VARCHAR},
+			</if>
+			<if test="country != null">
+				#{country, jdbcType=VARCHAR},
+			</if>
+			<if test="avatarUrl != null">
+				#{avatarUrl, jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<delete id="deleteWechatUser">
+		delete from t_system_wechat_user where open_id = #{openId}
+	</delete>
+	
+	<update id="updateWechatUser" parameterType="java.util.Map">
+		update t_system_wechat_user
+		<set>
+			<if test="nickName != null">
+				nick_name = #{nickName, jdbcType=VARCHAR},
+			</if>
+			<if test="openId != null">
+				open_id = #{openId, jdbcType=VARCHAR},
+			</if>
+			<if test="unionId != null">
+				union_id = #{unionId, jdbcType=VARCHAR},
+			</if>
+			<if test="gender != null">
+				gender = #{gender, jdbcType=INTEGER},
+			</if>
+			<if test="city != null">
+				city = #{city, jdbcType=VARCHAR},
+			</if>
+			<if test="province != null">
+				province = #{province, jdbcType=VARCHAR},
+			</if>
+			<if test="country != null">
+				country = #{country, jdbcType=VARCHAR},
+			</if>
+			<if test="avatarUrl != null">
+				avatar_url = #{avatarUrl, jdbcType=VARCHAR},
+			</if>
+		</set>
+		where open_id = #{openId, jdbcType=VARCHAR}
+	</update>
+
+	<insert id="insertBindRef" parameterType="java.util.Map">
+		insert into t_system_userbind(user_id,system_id,foreign_user_id,user_type) VALUES (#{userId},#{systemId},#{openId},#{userType})
+	</insert>
+	
+	<delete id="delBindInfo">
+		delete from t_system_userbind where 1=1
+		<if test="openId != null">
+			and foreign_user_id = #{openId}
+		</if>
+		<if test="userId != null">
+			and user_id = #{userId}
+		</if>
+		<if test="systemId != null">
+			and system_id = #{systemId}
+		</if>
+	</delete>
+	
+	<!-- 查询岗位列表 -->
+	<select id="queryStationsList" parameterType="map" resultType="map">
+		select id as "id",name as "name",level as "level" from t_system_stations
+	</select>
+	<select id="getStationsInfo" parameterType="map" resultType="map">
+		select id as "id",name as "name",level as "level" from t_system_stations
+		where 1=1
+		<if test="id != null">
+			and id = #{id}
+		</if>
+	</select>
+	
+	
+	<!-- 根据数据权限部门查询对应角色用过户 -->
+	<select id="queryUserByDataPer" resultType="map">
+			SELECT
+			t1. ID AS ID,
+			t1.login_name AS "loginName",
+			t1.user_name AS "userName",
+			t1.user_phone AS "userPhone",
+			t1.create_time AS "createTime",
+			t1.update_time AS "updateTime",
+			t1.user_status AS "userStatus",
+			t1.remark AS "remark",
+			t1.owner_id AS "ownerId",
+			t1.login_time AS "loginTime"
+		FROM
+			t_system_user t1
+		LEFT JOIN t_system_role_user t2 ON t1. ID = t2.user_id
+		LEFT JOIN t_system_role_org t3 ON t3.role_id = t2.role_id
+		WHERE
+			t1.user_name != 'admin'
+		AND t1.user_type = 0
+		AND t1.user_status = 1
+		AND t3.org_id = #{orgId}
+	</select>
+	
+	
+	<select id="getUserIdByResource" resultType="com.alibaba.fastjson.JSONObject">
+		select distinct t1.id from t_system_user t1
+		left join t_system_org_user t2 on t1.id = t2.user_id
+		<if test="permission != null and permission != ''">
+			left join t_system_role_user t3 on t1.id = t3.user_id
+		</if>
+		<where>
+			and t1.user_status in (1,3)
+			<if test="deptId != null">
+				and t2.org_id = #{deptId}
+			</if>
+			<if test="permission != null and permission != ''">
+				and t3.role_id in (
+					select distinct role_id from t_system_role_menu t4
+						inner join t_system_menu t1 on t1.id = t4.menu_id
+						inner join t_system_menu_res t2 on t1.id = t2.menu_id
+						inner join t_system_resources t3 on t2.res_id = t3.id
+						where system_id =#{systemId, jdbcType=INTEGER}
+						and t3.permission = #{permission, jdbcType=VARCHAR}
+				)
+			</if>
+		</where> 
+	</select>
+
+	<select id="queryUserBindAccountCount" resultType="java.lang.Integer">
+		select count(id) from t_system_user where bind_account = #{bindAccount}
+	</select>
+
+	<select id="queryUsersByUserIds" resultMap="userEntity">
+		select
+		id, login_name, user_name,user_status, user_phone, create_time,user_type, version,owner_id,stations_id,bind_account
+		from t_system_user
+		<where>
+			user_status != 0
+			<if test="map.userIds != null">
+				and id in
+				<foreach collection="map.userIds" item="item" open="(" close=")" separator=",">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+		ORDER BY id desc
+	</select>
+
+	<select id="judgeWeChatIsBind" resultType="java.lang.Integer">
+		select count(1) from t_system_userbind
+		<where>
+			<if test="map.userId != null">
+				and user_id = #{map.userId, jdbcType=INTEGER}
+			</if>
+			<if test="map.systemId != null">
+				and system_id = #{map.systemId, jdbcType=INTEGER}
+			</if>
+			<if test="map.openId != null">
+				and foreign_user_id = #{map.openId, jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+
+
+</mapper>

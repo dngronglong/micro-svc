@@ -1,0 +1,68 @@
+server: 
+  port: 7443
+  http.port: 7002
+
+  ssl: 
+  #证书路径
+    key-store: classpath:keystore.p12
+    key-store-type: PKCS12
+    key-alias: server
+  #配置密码，就是在生成证书的时候输入的密码
+    key-store-password: fangwei
+    
+spring:
+  application:
+    name: micro-svc-gateway
+  main:
+    allow-bean-definition-overriding: true
+ 
+  profiles:
+    include: url
+    active: dev
+ 
+zuul: 
+  add-host-header: true
+  servlet-path: /micro-svc-gateway
+  host:
+    socket-timeout-millis: 60000
+    connect-timeout-millis: 60000
+    max-per-route-connections: 500
+  sensitive-headers: 
+            
+hystrix:
+   command:
+      default:
+        execution:
+          isolation:
+            thread:
+              timeoutInMilliseconds: 60000
+   threadpool:
+    default:
+      coreSize: 50
+      maximumSize: 10000
+      allowMaximumSizeToDivergeFromCoreSize: true
+      maxQueueSize: -1
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000           
+              
+ribbon:
+  eager-load: 
+    enabled: true
+    clients: MICRO-SVC-AUTH
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
+  MaxAutoRetries: 1
+    
+feign:
+  hystrix:
+    enabled: true
+
+info: 
+  app.name: ${spring.application.name}
+  company.name: test.com
+  build.groupId: "@project.parent.groupId@" ##yml文件用@，properties文件用$ resource.filtering必须设置为true
+  build.artifactId: "@project.artifactId@"
+  build.version: "@project.parent.version@"
+ 
