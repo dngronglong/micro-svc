@@ -1,0 +1,8 @@
+# Project exclude paths
+/micro-svc-auth/target/
+/micro-svc-auth-api/target/
+/micro-svc-common/target/
+/micro-svc-eureka/target/
+/micro-svc-gateway/target/
+/micro-svc-redis/target/
+/micro-svc-shiro/target/

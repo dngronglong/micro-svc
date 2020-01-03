@@ -7,6 +7,7 @@ import java.util.Set;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @NoArgsConstructor // lombok注解，生成一个无参数的构造方法
 public class UserEntity implements Serializable {
