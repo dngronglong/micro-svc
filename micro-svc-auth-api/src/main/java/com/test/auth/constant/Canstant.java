@@ -7,5 +7,7 @@ public class Canstant {
 	public static final String JSESSIONID = "JSESSIONID";
 	
 	public static final String MICRO_AUTH = "MICRO-SVC-AUTH";
+
+	public static final String MICRO_LOGIN = "MICRO_LOGIN";
 	
 }

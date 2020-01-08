@@ -59,7 +59,7 @@ public class UserEntity implements Serializable {
 	/**
 	 * 微信唯一id
 	 */
-	private String openid;
+//	private String openid;
 
 	/**
 	 * 用户备注
@@ -139,7 +139,7 @@ public class UserEntity implements Serializable {
 	 */
 	private String bindAccount;
 	
-	private int randomHashCode;
+//	private int randomHashCode;
 
 	protected Integer createBy;
 	

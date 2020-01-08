@@ -9,6 +9,9 @@ import com.test.auth.api.LoginCheckApi;
 
 import feign.hystrix.FallbackFactory;
 
+/**
+ * @author admin
+ */
 @Component
 public class LoginCheckApiFallback implements FallbackFactory<LoginCheckApi> {
 

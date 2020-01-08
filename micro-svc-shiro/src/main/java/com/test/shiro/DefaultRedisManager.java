@@ -176,42 +176,52 @@ public class DefaultRedisManager extends RedisManager{
 		return keys;
 	}
 
+	@Override
 	public String getHost() {
 		return host;
 	}
 
+	@Override
 	public void setHost(String host) {
 		this.host = host;
 	}
 
+	@Override
 	public int getPort() {
 		return port;
 	}
 
+	@Override
 	public void setPort(int port) {
 		this.port = port;
 	}
 
+	@Override
 	public int getExpire() {
 		return expire;
 	}
 
+	@Override
 	public void setExpire(int expire) {
 		this.expire = expire;
 	}
 
+	@Override
 	public int getTimeout() {
 		return timeout;
 	}
 
+	@Override
 	public void setTimeout(int timeout) {
 		this.timeout = timeout;
 	}
 
+	@Override
 	public String getPassword() {
 		return password;
 	}
 
+	@Override
 	public void setPassword(String password) {
 		this.password = password;
 	}

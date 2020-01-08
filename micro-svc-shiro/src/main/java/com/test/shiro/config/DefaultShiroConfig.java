@@ -130,7 +130,8 @@ public class DefaultShiroConfig {
 		DefaultRedisManager redisManager = new DefaultRedisManager();
 		redisManager.setHost(redis.get("host"));
 		redisManager.setPort(Integer.parseInt(redis.get("port")));
-		redisManager.setExpire(Integer.parseInt(redis.get("expire")));// 配置缓存过期时间
+		// 配置缓存过期时间
+		redisManager.setExpire(Integer.parseInt(redis.get("expire")));
 		redisManager.setTimeout(Integer.parseInt(redis.get("timeout")));
 		redisManager.setPassword(redis.get("password"));
 		redisManager.setDatabase(Integer.parseInt(redis.get("database")));

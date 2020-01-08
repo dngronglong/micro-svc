@@ -112,36 +112,36 @@ public class LoginServiceImpl implements LoginService{
 		}
 		
 		// 设置用户部门信息
-		List<JSONObject> list = null;
-		Set<Integer> deptSet = Sets.newHashSet();
-		Map<String, Object> params = Maps.newHashMap();
-		params.put("ownerId", userEntity.getOwnerId());
-		if ("admin".equals(userEntity.getLoginName())) {
-			list = loginMapper.queryOrgByAdmin(params);	// 按照ID排序
-		} else {
-			params.put("userId", userEntity.getId());
-			list = loginMapper.queryOrgByUser(params);	// 按照ID排序
-		}
-		if(null != list && list.size() > 0) {
-			list.stream().forEach(n->{
-				deptSet.add(n.getInteger("orgid"));
-			});
-			
-			JSONObject jo = list.get(0);
-			userEntity.setOrgId(jo.getInteger("orgid"));
-			userEntity.setOrgName(jo.getString("orgname"));
-		} else {
-			userEntity.setOrgId(0);
-			userEntity.setOrgName("");
-		}
-		userEntity.setDeptIds(deptSet);
+//		List<JSONObject> list = null;
+//		Set<Integer> deptSet = Sets.newHashSet();
+//		Map<String, Object> params = Maps.newHashMap();
+//		params.put("ownerId", userEntity.getOwnerId());
+//		if ("admin".equals(userEntity.getLoginName())) {
+//			list = loginMapper.queryOrgByAdmin(params);	// 按照ID排序
+//		} else {
+//			params.put("userId", userEntity.getId());
+//			list = loginMapper.queryOrgByUser(params);	// 按照ID排序
+//		}
+//		if(null != list && list.size() > 0) {
+//			list.stream().forEach(n->{
+//				deptSet.add(n.getInteger("orgid"));
+//			});
+//
+//			JSONObject jo = list.get(0);
+//			userEntity.setOrgId(jo.getInteger("orgid"));
+//			userEntity.setOrgName(jo.getString("orgname"));
+//		} else {
+//			userEntity.setOrgId(0);
+//			userEntity.setOrgName("");
+//		}
+//		userEntity.setDeptIds(deptSet);
 
 		// 设置微信名
-		params = Maps.newHashMap();
-		params.put("userId", userEntity.getId());
-		List<JSONObject> li = loginMapper.queryWechatUser(params);
-		Optional<JSONObject> findFirst = li.stream().findFirst();
-		userEntity.setNickName(findFirst.isPresent() ? findFirst.get().getString("nick_name") : "");
+//		params = Maps.newHashMap();
+//		params.put("userId", userEntity.getId());
+//		List<JSONObject> li = loginMapper.queryWechatUser(params);
+//		Optional<JSONObject> findFirst = li.stream().findFirst();
+//		userEntity.setNickName(findFirst.isPresent() ? findFirst.get().getString("nick_name") : "");
 		
 		// 获取角色id
 		userEntity.setRoleId(0);
@@ -154,13 +154,15 @@ public class LoginServiceImpl implements LoginService{
 		}
 
 		// 设置岗位级别
-		Map<String, Object> param = Maps.newHashMap();
-		param.put("id", userEntity.getStationsId());
-		Map<String, Object> map = loginMapper.getStationsInfo(param);
-		if (map.size() > 0)
-			userEntity.setStationsLevel(Integer.valueOf(map.get("level").toString()));
-		if (userEntity.getLoginName().equals("admin"))
-			userEntity.setStationsLevel(1);
+//		Map<String, Object> param = Maps.newHashMap();
+//		param.put("id", userEntity.getStationsId());
+//		Map<String, Object> map = loginMapper.getStationsInfo(param);
+//		if (map.size() > 0) {
+//			userEntity.setStationsLevel(Integer.valueOf(map.get("level").toString()));
+//		}
+//		if (userEntity.getLoginName().equals("admin")) {
+//			userEntity.setStationsLevel(1);
+//		}
 		
 		// 获取用户权限，放到redis缓存
 		Set<Integer> permsSet = Sets.newHashSet();
@@ -198,8 +200,17 @@ public class LoginServiceImpl implements LoginService{
 	
 	public String getPassword(String salt, String password) {
 		// 用户登录密码的key
-		String input = salt + MD5Util.encrypt32(password) + "73a526076a830e445905d596157729bf";
+//		String input = salt + MD5Util.encrypt32(password) + "73a526076a830e445905d596157729bf";
+		String input = salt + MD5Util.encrypt32(password);
 		return MD5Util.encrypt32(input);
+	}
+
+	public static void main(String[] args) {
+//		LoginServiceImpl service=new LoginServiceImpl();
+//		service.getPassword("admin","123456");
+		String pw="admin"+MD5Util.encrypt32("123456");
+		String p=MD5Util.encrypt32(pw);
+		System.out.println(p);
 	}
 	
 	
