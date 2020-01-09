@@ -75,7 +75,7 @@ public class AuthFilter extends ZuulFilter{
 		RequestContext ctx = RequestContext.getCurrentContext();
 		HttpServletRequest request = this.getHttpServletRequest();
 
-		// option请求，直接放行
+		// option请求，直接放行。
 		if (request.getMethod().equals(RequestMethod.OPTIONS.name())) {
 			return null;
 		}
